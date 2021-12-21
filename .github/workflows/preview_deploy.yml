@@ -1,10 +1,12 @@
 name: Preview Deploy CD
 
 on:
-  push:
-    branches-ignore:
-      - main
   pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches:
+      - develop
+      - staging
+      - main
 
 jobs:
   build:
