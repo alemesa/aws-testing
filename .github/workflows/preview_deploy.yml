@@ -19,10 +19,10 @@ jobs:
         with: 
           node-version: 12
       - run: npm ci
-      - run: BASE_PATH='/preview' next build && next export
+      - run: BASE_PATH='/preview' && npm run build:static
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ca-central-1
-      - run: aws s3 sync ./out s3://alemesa-static-site/preview/
+      - run: aws s3 sync ./out s3://alemesa-static-site/preview
