@@ -19,7 +19,7 @@ jobs:
         with: 
           node-version: 12
       - run: npm ci
-      - run: npm run build:static
+      - run: BASE_PATH='/preview' next build && next export
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
