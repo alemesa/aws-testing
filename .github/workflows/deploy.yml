@@ -1,8 +1,9 @@
-name: CD
+name: Deploy to S3
 
 on:
   push:
-    branches: [ main ]
+    branches:
+     - main
 
 jobs:
   build:
@@ -10,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-        with: 
+        with:
           node-version: 12
       - run: npm ci
       - run: npm run build:static
