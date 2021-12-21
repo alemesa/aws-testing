@@ -16,7 +16,7 @@ function Home({ className }: Props) {
     <main className={classnames(styles.Home, className)} ref={containerRef}>
       <Head />
       <section className={styles.hero}>
-        <h1 className={styles.title}>Welcome to Jam3!</h1>
+        <h1 className={styles.title}>Welcome to Ale's Page!</h1>
         <h2 className={styles.description}>
           To get started, edit <code>pages/index.js</code> and save to reload.
         </h2>
