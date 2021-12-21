@@ -47,6 +47,7 @@ const nextJSConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'src/styles')]
   },
+  basePath: '/preview',
   webpack: function (config, options) {
     config.module.rules.push({
       test: /\.svg$/,
