@@ -9,33 +9,35 @@ on:
       - opened
       - edited
       - synchronize
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Setting Up
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with: 
+      - name: Checking out files
+        uses: actions/checkout@v2
+
+      - name: Setting Up Node
+        uses: actions/setup-node@v1
+        with:
           node-version: 12
-          
+
       - name: Install dependencies
-      - run: npm ci
-      
+        run: npm ci
+
       - name: Build NextJS bundle
-      - env:
+        env:
          NEXT_PUBLIC_BASE_PATH: '/preview/${{ github.event.number }}'
-      - run: npm run build:static
-      
+        run: npm run build:static
+
       - name: Deploy bundle to S3
-      - uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ca-central-1
-      - run: aws s3 sync ./out s3://alemesa-static-site/preview/${{ github.event.number }}
-      
+        run: aws s3 sync ./out s3://alemesa-static-site/preview/${{ github.event.number }}
+
       - name: Send message to PR
         if: success()
         uses: unsplash/comment-on-pr@master
