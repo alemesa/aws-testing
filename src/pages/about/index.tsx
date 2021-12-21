@@ -15,7 +15,7 @@ function About({ className }: Props) {
   return (
     <main className={classnames(styles.About, className)} ref={containerRef}>
       <Head title="About" />
-      <h1 className={styles.title}>About Page !!!</h1>
+      <h1 className={styles.title}>Testing Page !!!</h1>
     </main>
   );
 }
