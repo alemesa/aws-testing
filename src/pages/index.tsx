@@ -32,12 +32,6 @@ function Home({ className }: Props) {
               <p>See our contributions to Open Source community</p>
             </a>
           </li>
-          <li>
-            <a href="https://jam3.dev" className={styles.card} target="_blank" rel="noopener noreferrer">
-              <h3>Jam3.dev</h3>
-              <p>Learn more about Jam3.dev</p>
-            </a>
-          </li>
         </ul>
       </section>
     </main>
