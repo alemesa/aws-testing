@@ -3,18 +3,15 @@
 version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@1.0.0
-  node: circleci/node@5.0.0
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
   build:
     docker:
-      - image: 'cimg/base:stable'
+      - image: 'cimg/node:14.18'
 
     steps:
       - checkout
-      - node/install:
-          node-version: '14'
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
