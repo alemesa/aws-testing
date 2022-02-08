@@ -9,10 +9,12 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/node:14.18.1-browsers
+      - image: 'cimg/base:stable'
 
     steps:
       - checkout
+      - node/install:
+          node-version: '14'
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
@@ -23,6 +25,8 @@ jobs:
           command: |
             sudo npm install -g npm@7
             npm install
+      - run: node --version
+      - run: npm --version
       - save_cache:
           paths:
             - node_modules
