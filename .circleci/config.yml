@@ -33,16 +33,10 @@ jobs:
             - ~/.npm
             - ~/.cache
           key: v1-dependencies-{{ checksum "package.json" }}
-      - persist_to_workspace:
-          root: /root/project
-          paths:
-            - '*'
 
   linters:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: /root/project
       - run:
           name: Run linters
           command: |
@@ -51,8 +45,6 @@ jobs:
   build:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: /root/project
       - run:
           name: 'Preparing Build'
           command: |
