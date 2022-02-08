@@ -9,7 +9,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/node
+      - image: cimg/node
     environment:
       NPM_VERSION: '5.7.0'
     steps:
