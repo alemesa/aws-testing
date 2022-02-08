@@ -9,7 +9,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/base:stable
+      - image: circleci/node:14.18.1-browsers
 
     steps:
       - checkout
