@@ -30,6 +30,10 @@ jobs:
             - ~/.npm
             - ~/.cache
           key: v1-dependencies-{{ checksum "package.json" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - '*'
 
   linters:
     docker:
@@ -40,6 +44,8 @@ jobs:
           name: Run linters
           command: |
             npm run linters
+      - attach_workspace:
+          at: .
 
   build:
     docker:
@@ -57,6 +63,8 @@ jobs:
             aws s3 sync ./out s3://alemesa-static-site
             aws configure set preview.cloudfront true
             aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+      - attach_workspace:
+          at: .
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
