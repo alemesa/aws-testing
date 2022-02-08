@@ -8,17 +8,27 @@ orbs:
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
   build:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-    executor: node/default
+    environment:
+      NPM_VERSION: '5.7.0'
     steps:
       - checkout
-      - node/install-packages:
-          cache-path: ~/project/node_modules
+      - restore_cache:
+          name: Restore node modules cache
+          key: node_modules-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install dependencies
+          command: |
+            if [ ! -d node_modules ]; then
+              sudo npm install -g npm@$NPM_VERSION
+              npm ci
+            fi
+      - save_cache:
+          name: Save node modules cache
+          key: node_modules-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
       - run:
           name: 'Preparing Build'
           command: |
@@ -34,6 +44,7 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  build-workflow:
+  version: 2
+  deploy:
     jobs:
       - build
