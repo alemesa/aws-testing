@@ -30,13 +30,17 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-            - ~/.npm
-            - ~/.cache
           key: v1-dependencies-{{ checksum "package.json" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
 
   linters:
     <<: *defaults
     steps:
+      - attach_workspace:
+          at: .
       - checkout
       - run:
           name: Run linters
@@ -46,6 +50,8 @@ jobs:
   build:
     <<: *defaults
     steps:
+      - attach_workspace:
+          at: .
       - checkout
       - run:
           name: 'Preparing Build'
