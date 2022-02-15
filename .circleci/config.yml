@@ -25,8 +25,6 @@ jobs:
           command: |
             sudo npm install -g npm@7
             npm install
-      - run: node --version
-      - run: npm --version
       - save_cache:
           paths:
             - node_modules
@@ -53,9 +51,6 @@ jobs:
       - attach_workspace:
           at: .
       - checkout
-      - run:
-          name: 'Listing files'
-          command: ls
       - run:
           name: 'Pre Build'
           command: sh .circleci/scripts/pre-build.sh
