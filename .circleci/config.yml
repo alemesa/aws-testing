@@ -8,6 +8,24 @@ defaults: &defaults
 version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@1.0.0
+
+commands:
+  build-frontend:
+    description: 'Building the frontend'
+    steps:
+      - run:
+          command: |
+            npm run build:static
+
+  deploy-s3:
+    description: 'Deploying to S3 and invalidating cloudfront'
+    steps:
+      - run:
+          command: |
+            aws s3 sync ./out s3://alemesa-static-site
+            aws configure set preview.cloudfront true
+            aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -55,20 +73,17 @@ jobs:
       - checkout
       - run:
           name: 'Pre Build'
-          command: |
-            bash ./scripts/pre-build.sh
+          command: /scripts/pre-build.sh
       - run:
           name: 'Preparing Build'
-          command: |
-            bash ./scripts/build.sh
+          command: /scripts/build.sh
       - aws-cli/setup: #See: https://circleci.com/orbs/registry/orb/circleci/aws-cli
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           aws-region: AWS_REGION
       - run:
           name: 'Deploying to S3 and Invalidate Cloudfront'
-          command: |
-            bash ./scripts/deploy.sh
+          command: /scripts/deploy.sh
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
