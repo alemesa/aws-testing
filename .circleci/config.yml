@@ -56,14 +56,12 @@ jobs:
       - run:
           name: 'Preparing Build'
           command: |
-            npm run build:static
+            sh ./scripts/build.sh
       - aws-cli/setup
       - run:
           name: 'Deploying to S3 and Invalidate Cloudfront'
           command: |
-            aws s3 sync ./out s3://alemesa-static-site
-            aws configure set preview.cloudfront true
-            aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+            sh ./scripts/deploy.sh
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
