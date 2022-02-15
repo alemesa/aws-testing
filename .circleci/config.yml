@@ -72,20 +72,20 @@ jobs:
       - checkout
       - run:
           name: 'Listing files'
-          command: 'ls'
+          command: ls
       - run:
           name: 'Pre Build'
-          command: /scripts/pre-build.sh
+          command: .circleci/scripts/pre-build.sh
       - run:
           name: 'Preparing Build'
-          command: /scripts/build.sh
+          command: .circleci/scripts/build.sh
       - aws-cli/setup: #See: https://circleci.com/orbs/registry/orb/circleci/aws-cli
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           aws-region: AWS_REGION
       - run:
           name: 'Deploying to S3 and Invalidate Cloudfront'
-          command: /scripts/deploy.sh
+          command: .circleci/scripts/deploy.sh
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
