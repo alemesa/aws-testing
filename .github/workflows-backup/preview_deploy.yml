@@ -25,7 +25,7 @@ jobs:
 
       - name: Build NextJS bundle
         env:
-         NEXT_PUBLIC_BASE_PATH: '/preview/${{ github.event.number }}'
+          NEXT_PUBLIC_BASE_PATH: '/preview/${{ github.event.number }}'
         run: npm run build:static
 
       - name: AWS Credentials
@@ -44,7 +44,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-         msg: |
-           Deploy Preview ready!
-           http://alemesa-static-site.s3-website.ca-central-1.amazonaws.com/preview/${{ github.event.number }}
-           built from ${{ github.sha }}
+          msg: |
+            Deploy Preview ready!
+            http://alemesa-static-site.s3-website.ca-central-1.amazonaws.com/preview/${{ github.event.number }}
+            built from ${{ github.sha }}
