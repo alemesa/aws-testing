@@ -56,23 +56,30 @@ jobs:
       - run:
           name: 'Preparing Build'
           command: |
-            sh ./scripts/build.sh
+            bash ./scripts/build.sh
       - aws-cli/setup
       - run:
           name: 'Deploying to S3 and Invalidate Cloudfront'
           command: |
-            sh ./scripts/deploy.sh
+            bash ./scripts/deploy.sh
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   version: 2
-  deploy:
+  linters:
     jobs:
       - prepare
       - linters:
           requires:
             - prepare
+          filters:
+            branches:
+              ignore:
+                - main
+  deploy:
+    jobs:
+      - prepare
       - build:
           requires:
             - prepare
